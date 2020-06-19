@@ -1,0 +1,16 @@
+[
+{
+  "modid": "togglesneak",
+  "name": "Toggle Sneak",
+  "description": "Yet another version of ToggleSneak!",
+  "version": "${version}",
+  "mcversion": "1.8.9",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Condolence"],
+  "credits": "The original ToggleSneak authors, along with Sk1er (I think?) for the Chroma wave code.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
