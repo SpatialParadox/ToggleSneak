@@ -14,13 +14,10 @@ import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.opengl.GL11;
 
 public class GuiMainMenu extends GuiScreen {
-    private ToggleSneakMod mod;
-    private ToggleSneakSettings settings;
-
-    private boolean renderFancier;
+    private final ToggleSneakMod mod;
+    private final ToggleSneakSettings settings;
 
     // GUI VARIABLES
-    private GuiTransButton modToggleButton;
     private GuiTransButton hudToggleButton;
     private GuiTransButton hudPosButton;
     private GuiTransButton toggleSprintButton;
@@ -33,15 +30,6 @@ public class GuiMainMenu extends GuiScreen {
     private final EnumChatFormatting greenTextColor = EnumChatFormatting.GREEN;
     private final EnumChatFormatting redTextColor = EnumChatFormatting.RED;
 
-    private final String modStateLabel = "Mod State: %s";
-    private final String hudToggleLabel = "HUD: %s";
-    private final String hudPosLabel = "Show HUD Position";
-    private final String hudTextLabel = "Edit HUD Text";
-    private final String toggleSprintLabel = "Toggle Sprint: %s";
-    private final String toggleSneakLabel = "Toggle Sneak: %s";
-    private final String toggleFlyLabel = "Fly Boost: %s";
-    private final String flyBoostAmountLabel = "Fly Boost Amount: ";
-
     // MAIN GUI METHODS
     public GuiMainMenu(final ToggleSneakMod mod) {
         this.mod = mod;
@@ -49,14 +37,19 @@ public class GuiMainMenu extends GuiScreen {
     }
 
     public void initGui() {
-        final String mainToggleText = String.format(modStateLabel, this.settings.isModEnabled() ? greenTextColor + "Enabled" : redTextColor + "Disabled");
-        final String hudToggleText = String.format(hudToggleLabel, this.settings.isHudShown() ? greenTextColor + "Shown" : redTextColor + "Hidden");
-        final String toggleSprintText = String.format(toggleSprintLabel, this.settings.isToggleSprintEnabled() ? greenTextColor + "Enabled" : redTextColor + "Disabled");
-        final String toggleSneakText = String.format(toggleSneakLabel, this.settings.isToggleSneakEnabled() ? greenTextColor + "Enabled" : redTextColor + "Disabled");
-        final String toggleFlyText = String.format(toggleFlyLabel, this.settings.isFlyBoostEnabled() ? greenTextColor + "Enabled" : redTextColor + "Disabled");
+        // CREATE TEXT STRINGS
+        final String mainToggleText = "Mod State: " + (this.settings.isModEnabled() ? greenTextColor + "Enabled" : redTextColor + "Disabled");
+        final String hudToggleText = "HUD: " + (this.settings.isHudShown() ? greenTextColor + "Shown" : redTextColor + "Hidden");
+        final String toggleSprintText = "Toggle Sprint: " + (this.settings.isToggleSprintEnabled() ? greenTextColor + "Enabled" : redTextColor + "Disabled");
+        final String toggleSneakText = "Toggle Sneak: " + (this.settings.isToggleSneakEnabled() ? greenTextColor + "Enabled" : redTextColor + "Disabled");
+        final String toggleFlyText = "Fly Boost: " + (this.settings.isFlyBoostEnabled() ? greenTextColor + "Enabled" : redTextColor + "Disabled");
+
+        final String hudPosLabel = "Show HUD Position";
+        final String hudTextLabel = "Edit HUD Text";
+        final String flyBoostAmountLabel = "Fly Boost Amount: ";
 
         // CREATE BUTTONS
-        this.modToggleButton = new GuiTransButton(0, this.getCenter() - 75, this.getRowPos(1), 150, 20, mainToggleText);
+        final GuiTransButton modToggleButton = new GuiTransButton(0, this.getCenter() - 75, this.getRowPos(1), 150, 20, mainToggleText);
         this.hudToggleButton = new GuiTransButton(1, this.getCenter() - 75, this.getRowPos(4), 150, 20, hudToggleText);
         this.hudPosButton = new GuiTransButton(2, this.getCenter() - 153, this.getRowPos(5), 150, 20, hudPosLabel);
         this.hudTextButton = new GuiTransButton(3, this.getCenter() + 2, this.getRowPos(5), 150, 20, hudTextLabel);
@@ -66,7 +59,7 @@ public class GuiMainMenu extends GuiScreen {
         this.flyBoostAmountSlider = new GuiSlideControl(7, this.getCenter() - 150, this.getRowPos(8), 300, 20, flyBoostAmountLabel, 1.0f, 10.0f, (float)this.settings.getFlyBoostAmount(), true);
 
         // ADD BUTTONS TO BUTTON LIST
-        this.buttonList.add(this.modToggleButton);
+        this.buttonList.add(modToggleButton);
         this.buttonList.add(this.hudToggleButton);
         this.buttonList.add(this.hudPosButton);
         this.buttonList.add(this.hudTextButton);
@@ -97,13 +90,15 @@ public class GuiMainMenu extends GuiScreen {
     protected void actionPerformed(final GuiButton button) {
         switch (button.id) {
             case 0: {
-                this.settings.setModEnabled(!this.settings.isModEnabled());
-                button.displayString = String.format(modStateLabel, this.settings.isModEnabled() ? greenTextColor + "Enabled" : redTextColor + "Disabled");
+                final boolean modEnabled = !this.settings.isModEnabled();
+                this.settings.setModEnabled(modEnabled);
+                button.displayString = "Mod State: " + (modEnabled ? greenTextColor + "Enabled" : redTextColor + "Disabled");
                 break;
             }
             case 1: {
-                this.settings.setHudShown(!this.settings.isHudShown());
-                button.displayString = String.format(hudToggleLabel, this.settings.isHudShown() ? greenTextColor + "Shown" : redTextColor + "Hidden");
+                final boolean hudShown =  !this.settings.isHudShown();
+                this.settings.setHudShown(hudShown);
+                button.displayString = "HUD: " + (hudShown ? greenTextColor + "Shown" : redTextColor + "Hidden");
                 break;
             }
             case 2: {
@@ -115,18 +110,21 @@ public class GuiMainMenu extends GuiScreen {
                 break;
             }
             case 4: {
-                this.settings.setToggleSprintEnabled(!this.settings.isToggleSprintEnabled());
-                button.displayString = String.format(toggleSprintLabel, this.settings.isToggleSprintEnabled() ? greenTextColor + "Enabled" : redTextColor + "Disabled");
+                final boolean toggleSprintEnabled = !this.settings.isToggleSprintEnabled();
+                this.settings.setToggleSprintEnabled(toggleSprintEnabled);
+                button.displayString = "Toggle Sprint: " + (toggleSprintEnabled ? greenTextColor + "Enabled" : redTextColor + "Disabled");
                 break;
             }
             case 5: {
-                this.settings.setToggleSneakEnabled(!this.settings.isToggleSneakEnabled());
-                button.displayString = String.format(toggleSneakLabel, this.settings.isToggleSneakEnabled() ? greenTextColor + "Enabled" : redTextColor + "Disabled");
+                final boolean toggleSneakEnabled = !this.settings.isToggleSneakEnabled();
+                this.settings.setToggleSneakEnabled(toggleSneakEnabled);
+                button.displayString = "Toggle Sneak: " + (toggleSneakEnabled ? greenTextColor + "Enabled" : redTextColor + "Disabled");
                 break;
             }
             case 6: {
-                this.settings.setFlyBoostEnabled(!this.settings.isFlyBoostEnabled());
-                button.displayString = String.format(toggleFlyLabel, this.settings.isFlyBoostEnabled() ? greenTextColor + "Enabled" : redTextColor + "Disabled");
+                final boolean flyBoostEnabled = !this.settings.isFlyBoostEnabled();
+                this.settings.setFlyBoostEnabled(flyBoostEnabled);
+                button.displayString = "Fly Boost: " + (flyBoostEnabled ? greenTextColor + "Enabled" : redTextColor + "Disabled");
                 break;
             }
         }
@@ -156,7 +154,7 @@ public class GuiMainMenu extends GuiScreen {
     }
 
     protected void renderUI() {
-        this.renderFancier = (this.width >= 640 && this.height >= 350);
+        final boolean renderFancier = (this.width >= 640 && this.height >= 350);
 
         final float f2 = 0.4862745f;
         final float f3 = 0.6392157f;
@@ -171,7 +169,7 @@ public class GuiMainMenu extends GuiScreen {
 
         GL11.glPopMatrix();
 
-        if (this.renderFancier) {
+        if (renderFancier) {
             GL11.glPushMatrix();
             GL11.glScaled(1.0, 1.0, 0.0);
 
