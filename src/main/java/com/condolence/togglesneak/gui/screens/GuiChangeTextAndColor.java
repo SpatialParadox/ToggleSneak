@@ -3,18 +3,11 @@ package com.condolence.togglesneak.gui.screens;
 import com.condolence.togglesneak.ToggleSneakMod;
 import com.condolence.togglesneak.config.ToggleSneakSettings;
 import com.condolence.togglesneak.gui.elements.GuiColorPicker;
-import com.condolence.togglesneak.gui.elements.GuiTransButton;
-import com.condolence.togglesneak.gui.elements.GuiTransTextField;
 import com.condolence.togglesneak.gui.elements.HudText;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumChatFormatting;
-import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
 import java.util.Arrays;
