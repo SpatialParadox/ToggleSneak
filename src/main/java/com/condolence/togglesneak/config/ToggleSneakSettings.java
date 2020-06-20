@@ -27,7 +27,7 @@ public class ToggleSneakSettings {
     private int hudX;
     private int hudY;
 
-    private final HashMap<String, HudText> HudTexts = new HashMap<>();
+    private final HashMap<String, HudText> HudTexts = new HashMap<String, HudText>();
 
     public ToggleSneakSettings() {
         this.mc = Minecraft.getMinecraft();
