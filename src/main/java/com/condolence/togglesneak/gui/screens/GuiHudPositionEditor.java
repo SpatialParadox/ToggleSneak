@@ -2,11 +2,8 @@ package com.condolence.togglesneak.gui.screens;
 
 import com.condolence.togglesneak.ToggleSneakMod;
 import com.condolence.togglesneak.config.ToggleSneakSettings;
-import com.condolence.togglesneak.gui.elements.GuiTransButton;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
 
@@ -24,23 +21,26 @@ public class GuiHudPositionEditor extends GuiScreen {
     }
 
     public void initGui() {
-        this.buttonList.add(new GuiTransButton(0, this.getCenter() - 50, this.height - 22, 100, 20, "Save Position"));
+        final GuiButton saveButton = new GuiButton(0, this.getElementXCenter(100), this.height - 25, 100, 20, "Save Position");
+        this.buttonList.add(saveButton);
     }
 
-    public int getCenter() {
+    private int getCenter() {
         return this.width / 2;
     }
+    private int getElementXCenter(final int elementWidth) { return (this.width / 2) - (elementWidth / 2); }
 
     public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
-        final String modLabel = "ToggleSneak Mod";
-
         super.drawDefaultBackground();
+
+        // DRAW TEXT
+        this.drawCenteredString(this.mc.fontRendererObj, "ToggleSneak", this.getCenter(), 20, 2201331);
+        this.drawCenteredString(this.mc.fontRendererObj, this.mod.getVersion(), this.getCenter(), 30, 3162015);
+
+        // UPDATE DRAG POSITION
         this.updateDraggedModulePosition(mouseX, mouseY);
-        GL11.glPushMatrix();
-        GL11.glTranslatef(1.0f * -this.getCenter(), -25.0f, 0.0f);
-        GL11.glScaled(2.0, 2.0, 2.0);
-        this.drawCenteredString(this.mc.fontRendererObj, modLabel, this.getCenter(), 25, 815000);
-        GL11.glPopMatrix();
+
+        // DRAW SCREEN
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
