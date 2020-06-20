@@ -3,6 +3,7 @@ package com.condolence.togglesneak.gui.screens;
 import com.condolence.togglesneak.ToggleSneakMod;
 import com.condolence.togglesneak.config.ToggleSneakSettings;
 import com.condolence.togglesneak.gui.elements.GuiTransButton;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.opengl.GL11;

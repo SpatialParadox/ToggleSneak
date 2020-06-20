@@ -22,8 +22,6 @@ public class GuiOptionsReplace extends GuiIngameMenu {
     protected void actionPerformed(final GuiButton buttonPressed) throws IOException {
         super.actionPerformed(buttonPressed);
 
-        if (buttonPressed.id == 9999) {
-            this.mc.displayGuiScreen(new GuiMainMenu(this.mod));
-        }
+        if (buttonPressed.id == 9999) { this.mc.displayGuiScreen(new GuiMainMenu(this.mod)); }
     }
 }

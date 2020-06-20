@@ -8,6 +8,7 @@ import com.condolence.togglesneak.gui.elements.GuiTransTextField;
 import com.condolence.togglesneak.gui.elements.HudText;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -22,9 +23,9 @@ public class GuiChangeTextAndColor extends GuiScreen {
     private final ToggleSneakMod mod;
 
     // GUI VARIABLES
-    private GuiTransButton chromaButton;
+    private GuiButton chromaButton;
     private GuiColorPicker colorPicker;
-    private GuiTransTextField textEditor;
+    private GuiTextField textEditor;
 
     private final HudText[] allHudTexts;
     private HudText focusedHudText;
@@ -53,20 +54,16 @@ public class GuiChangeTextAndColor extends GuiScreen {
     public void initGui() {
         final String chromaText = "Chroma: " + (this.focusedHudText.isChroma() ? greenTextColor + "Enabled" : redTextColor + "Disabled");
 
-        final String previousLabel = "<";
-        final String nextLabel = ">";
-        final String syncColorLabel = "Apply color to all text";
-        final String saveLabel = "Save";
-
         // Create GUI elements
-        this.textEditor = new GuiTransTextField(this.fontRendererObj, this.getCenter() - 65, this.getRowPos(2), 140, 20);
+        this.textEditor = new GuiTextField(105, this.fontRendererObj, this.getCenter() - 75, this.getRowPos(2), 140, 20);
+        //this.textEditor = new GuiTransTextField(this.fontRendererObj, this.getCenter() - 65, this.getRowPos(2), 140, 20);
         this.colorPicker = new GuiColorPicker(0, 0, 0, "", this.getCenter() - 50, this.getRowPos(3), this.focusedHudText.getColor());
 
-        final GuiTransButton previousButton = new GuiTransButton(101, this.getCenter() - 100, this.getRowPos(2), 20, 20, previousLabel);
-        final GuiTransButton nextButton = new GuiTransButton(102, this.getCenter() + 90, this.getRowPos(2), 20, 20, nextLabel);
-        final GuiTransButton syncColorButton = new GuiTransButton(103, this.getCenter() - 175, this.getRowPos(5) - 5, 120, 20, syncColorLabel);
-        this.chromaButton = new GuiTransButton(104, this.getCenter() + 55, this.getRowPos(5) - 5, 120, 20, chromaText);
-        final GuiTransButton saveButton = new GuiTransButton(10, this.getCenter() - 67, this.height - 20, 140, 20, saveLabel);
+        final GuiButton previousButton = new GuiButton(101, this.getCenter() - 100, this.getRowPos(2), 20, 20, "<");
+        final GuiButton nextButton = new GuiButton(102, this.getCenter() + 90, this.getRowPos(2), 20, 20, ">");
+        final GuiButton syncColorButton = new GuiButton(103, this.getCenter() - 175, this.getRowPos(5) - 5, 120, 20, "Apply color to all text");
+        this.chromaButton = new GuiButton(104, this.getCenter() + 55, this.getRowPos(5) - 5, 120, 20, chromaText);
+        final GuiButton saveButton = new GuiButton(105, this.getCenter() - 67, this.height - 20, 140, 20, "Save");
 
         this.textEditor.setText(this.focusedHudText.getText());
 
@@ -90,10 +87,7 @@ public class GuiChangeTextAndColor extends GuiScreen {
 
     protected void actionPerformed(final GuiButton button) {
         switch (button.id) {
-            case 10: {
-                this.mc.displayGuiScreen(new GuiMainMenu(this.mod));
-                break;
-            }
+            // Previous text button
             case 101: {
                 final int currentHudTextIndex = Arrays.asList(this.allHudTexts).indexOf(this.focusedHudText);
                 if (currentHudTextIndex - 1 < 0) {
@@ -107,6 +101,7 @@ public class GuiChangeTextAndColor extends GuiScreen {
                 this.textEditor.setTextColor(this.colorPicker.getPickedColor());
                 break;
             }
+            // Next text button
             case 102: {
                 final int currentHudTextIndex = Arrays.asList(this.allHudTexts).indexOf(this.focusedHudText);
                 if (currentHudTextIndex == this.allHudTexts.length - 1) {
@@ -120,6 +115,7 @@ public class GuiChangeTextAndColor extends GuiScreen {
                 this.textEditor.setTextColor(this.colorPicker.getPickedColor());
                 break;
             }
+            // Sync color button
             case 103: {
                 for (final HudText hudText : this.allHudTexts) {
                     hudText.setChroma(this.focusedHudText.isChroma());
@@ -127,10 +123,16 @@ public class GuiChangeTextAndColor extends GuiScreen {
                 }
                 break;
             }
+            // Chroma button
             case 104: {
                 final boolean chromaEnabled = !this.focusedHudText.isChroma();
                 this.focusedHudText.setChroma(chromaEnabled);
                 this.chromaButton.displayString = "Chroma: " + (chromaEnabled ? greenTextColor + "Enabled" : redTextColor + "Disabled");
+                break;
+            }
+            // Save button
+            case 105: {
+                this.mc.displayGuiScreen(new GuiMainMenu(this.mod));
                 break;
             }
         }
@@ -138,8 +140,8 @@ public class GuiChangeTextAndColor extends GuiScreen {
 
     protected void mouseClicked(final int mouseX, final int mouseY, final int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        final GuiTransTextField target = this.textEditor;
-        if (mouseX > target.xPosition && mouseX < target.xPosition + target.width && mouseY > target.yPosition && mouseY < target.yPosition + target.height && target.getVisible() && target.isEnabled()) {
+        final GuiTextField target = this.textEditor;
+        if (mouseX > target.xPosition && mouseX < target.xPosition + target.width && mouseY > target.yPosition && mouseY < target.yPosition + target.height && target.getVisible()) {
             this.textEditor.mouseClicked(mouseX, mouseY, mouseButton);
         }
         else {

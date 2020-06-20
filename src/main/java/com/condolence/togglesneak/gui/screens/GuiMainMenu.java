@@ -18,12 +18,12 @@ public class GuiMainMenu extends GuiScreen {
     private final ToggleSneakSettings settings;
 
     // GUI VARIABLES
-    private GuiTransButton hudToggleButton;
-    private GuiTransButton hudPosButton;
-    private GuiTransButton toggleSprintButton;
-    private GuiTransButton toggleSneakButton;
-    private GuiTransButton hudTextButton;
-    private GuiTransButton toggleFlyBoostButton;
+    private GuiButton hudToggleButton;
+    private GuiButton hudPosButton;
+    private GuiButton toggleSprintButton;
+    private GuiButton toggleSneakButton;
+    private GuiButton hudTextButton;
+    private GuiButton toggleFlyBoostButton;
     private GuiSlideControl flyBoostAmountSlider;
 
     // GUI LABEL VARIABLES
@@ -49,13 +49,13 @@ public class GuiMainMenu extends GuiScreen {
         final String flyBoostAmountLabel = "Fly Boost Amount: ";
 
         // CREATE BUTTONS
-        final GuiTransButton modToggleButton = new GuiTransButton(0, this.getCenter() - 75, this.getRowPos(1), 150, 20, mainToggleText);
-        this.hudToggleButton = new GuiTransButton(1, this.getCenter() - 75, this.getRowPos(4), 150, 20, hudToggleText);
-        this.hudPosButton = new GuiTransButton(2, this.getCenter() - 153, this.getRowPos(5), 150, 20, hudPosLabel);
-        this.hudTextButton = new GuiTransButton(3, this.getCenter() + 2, this.getRowPos(5), 150, 20, hudTextLabel);
-        this.toggleSprintButton = new GuiTransButton(4, this.getCenter() - 153, this.getRowPos(2), 150, 20, toggleSprintText);
-        this.toggleSneakButton = new GuiTransButton(5, this.getCenter() + 2, this.getRowPos(2), 150, 20, toggleSneakText);
-        this.toggleFlyBoostButton = new GuiTransButton(6, this.getCenter() - 75, this.getRowPos(7), 150, 20, toggleFlyText);
+        final GuiButton modToggleButton = new GuiButton(0, this.getCenter() - 75, this.getRowPos(1), 150, 20, mainToggleText);
+        this.hudToggleButton = new GuiButton(1, this.getCenter() - 75, this.getRowPos(4), 150, 20, hudToggleText);
+        this.hudPosButton = new GuiButton(2, this.getCenter() - 153, this.getRowPos(5), 150, 20, hudPosLabel);
+        this.hudTextButton = new GuiButton(3, this.getCenter() + 2, this.getRowPos(5), 150, 20, hudTextLabel);
+        this.toggleSprintButton = new GuiButton(4, this.getCenter() - 153, this.getRowPos(2), 150, 20, toggleSprintText);
+        this.toggleSneakButton = new GuiButton(5, this.getCenter() + 2, this.getRowPos(2), 150, 20, toggleSneakText);
+        this.toggleFlyBoostButton = new GuiButton(6, this.getCenter() - 75, this.getRowPos(7), 150, 20, toggleFlyText);
         this.flyBoostAmountSlider = new GuiSlideControl(7, this.getCenter() - 150, this.getRowPos(8), 300, 20, flyBoostAmountLabel, 1.0f, 10.0f, (float)this.settings.getFlyBoostAmount(), true);
 
         // ADD BUTTONS TO BUTTON LIST
