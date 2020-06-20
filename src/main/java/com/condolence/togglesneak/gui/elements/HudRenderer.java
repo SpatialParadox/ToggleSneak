@@ -27,7 +27,7 @@ public class HudRenderer {
         if (this.mc.currentScreen == null) {
             if (current == null) { return; }
 
-            final String text = current.getDescription().equals("Flying (boost)") ? current.getText().replace("{AMOUNT}", "" + (int) Math.round(this.settings.getFlyBoostAmount())) : current.getText();
+            final String text = current.getDescription().equals("Flying (Boost)") ? current.getText().replace("{AMOUNT}", "" + (int) Math.round(this.settings.getFlyBoostAmount())) : current.getText();
 
             if (current.isChroma()) {
                 int x = hudX;
