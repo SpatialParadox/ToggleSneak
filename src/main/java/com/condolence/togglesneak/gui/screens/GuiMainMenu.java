@@ -2,8 +2,6 @@ package com.condolence.togglesneak.gui.screens;
 
 import com.condolence.togglesneak.ToggleSneakMod;
 import com.condolence.togglesneak.config.ToggleSneakSettings;
-import com.condolence.togglesneak.gui.elements.GuiSlideControl;
-import com.condolence.togglesneak.gui.elements.GuiTransButton;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -11,6 +9,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.fml.client.config.GuiSlider;
 import org.lwjgl.opengl.GL11;
 
 public class GuiMainMenu extends GuiScreen {
@@ -24,7 +23,7 @@ public class GuiMainMenu extends GuiScreen {
     private GuiButton toggleSneakButton;
     private GuiButton hudTextButton;
     private GuiButton toggleFlyBoostButton;
-    private GuiSlideControl flyBoostAmountSlider;
+    private GuiSlider flyBoostAmountSlider;
 
     // GUI LABEL VARIABLES
     private final EnumChatFormatting greenTextColor = EnumChatFormatting.GREEN;
@@ -56,7 +55,7 @@ public class GuiMainMenu extends GuiScreen {
         this.toggleSprintButton = new GuiButton(4, this.getCenter() - 153, this.getRowPos(2), 150, 20, toggleSprintText);
         this.toggleSneakButton = new GuiButton(5, this.getCenter() + 2, this.getRowPos(2), 150, 20, toggleSneakText);
         this.toggleFlyBoostButton = new GuiButton(6, this.getCenter() - 75, this.getRowPos(7), 150, 20, toggleFlyText);
-        this.flyBoostAmountSlider = new GuiSlideControl(7, this.getCenter() - 150, this.getRowPos(8), 300, 20, flyBoostAmountLabel, 1.0f, 10.0f, (float)this.settings.getFlyBoostAmount(), true);
+        this.flyBoostAmountSlider = new GuiSlider(7, this.getCenter() - 150, this.getRowPos(8), 300, 20, flyBoostAmountLabel, "", 1.0f, 10.0f, 1, false, true);
 
         // ADD BUTTONS TO BUTTON LIST
         this.buttonList.add(modToggleButton);
@@ -83,7 +82,9 @@ public class GuiMainMenu extends GuiScreen {
     public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
         super.drawDefaultBackground();
         this.renderUI();
-        this.settings.setFlyBoostAmount(this.flyBoostAmountSlider.getFloat());
+
+        this.settings.setFlyBoostAmount(this.flyBoostAmountSlider.getValue());
+
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -151,6 +152,8 @@ public class GuiMainMenu extends GuiScreen {
         this.hudTextButton.enabled = hudShown;
 
         this.flyBoostAmountSlider.enabled = flyBoostEnabled;
+
+        this.flyBoostAmountSlider.setValue(this.settings.getFlyBoostAmount());
     }
 
     protected void renderUI() {
