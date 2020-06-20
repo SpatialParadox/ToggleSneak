@@ -37,7 +37,7 @@ public class ToggleSneakListener {
     @SubscribeEvent
     public void onRenderTick(final TickEvent.RenderTickEvent e) {
         if (!this.settings.isModEnabled() || this.mc.theWorld == null) { return; }
-        if (!this.mc.inGameHasFocus || this.mc.gameSettings.showDebugInfo) { return; }
+        if (this.mc.gameSettings.showDebugInfo) { return; }
 
         hudRenderer.renderHud();
     }
