@@ -1,6 +1,5 @@
 package com.condolence.togglesneak.config;
 
-import com.condolence.togglesneak.ToggleSneakMod;
 import com.condolence.togglesneak.gui.elements.HudText;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -27,7 +26,7 @@ public class ToggleSneakSettings {
     private int hudX;
     private int hudY;
 
-    private final HashMap<String, HudText> HudTexts = new HashMap<String, HudText>();
+    private final HashMap<String, HudText> HudTexts = new HashMap<>();
 
     public ToggleSneakSettings() {
         this.mc = Minecraft.getMinecraft();
