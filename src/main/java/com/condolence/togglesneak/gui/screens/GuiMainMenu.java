@@ -4,13 +4,8 @@ import com.condolence.togglesneak.ToggleSneakMod;
 import com.condolence.togglesneak.config.ToggleSneakSettings;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.config.GuiSlider;
-import org.lwjgl.opengl.GL11;
 
 public class GuiMainMenu extends GuiScreen {
     private final ToggleSneakMod mod;
@@ -55,7 +50,7 @@ public class GuiMainMenu extends GuiScreen {
         this.toggleSprintButton = new GuiButton(4, this.getCenter() - 153, this.getRowPos(2), 150, 20, toggleSprintText);
         this.toggleSneakButton = new GuiButton(5, this.getCenter() + 2, this.getRowPos(2), 150, 20, toggleSneakText);
         this.toggleFlyBoostButton = new GuiButton(6, this.getCenter() - 75, this.getRowPos(7), 150, 20, toggleFlyText);
-        this.flyBoostAmountSlider = new GuiSlider(7, this.getCenter() - 150, this.getRowPos(8), 300, 20, flyBoostAmountLabel, "", 1.0f, 10.0f, 1, false, true);
+        this.flyBoostAmountSlider = new GuiSlider(7, this.getCenter() - 150, this.getRowPos(8), 300, 20, flyBoostAmountLabel, "", 1.0f, 10.0f, this.settings.getFlyBoostAmount(), false, true);
 
         // ADD BUTTONS TO BUTTON LIST
         this.buttonList.add(modToggleButton);
@@ -80,11 +75,17 @@ public class GuiMainMenu extends GuiScreen {
 
     // GUI RENDERING METHODS
     public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
+        // DRAW BACKGROUND
         super.drawDefaultBackground();
-        this.renderUI();
 
+        // DRAW TEXT
+        this.drawCenteredString(this.mc.fontRendererObj, "ToggleSneak", this.getCenter(), 20, 2201331);
+        this.drawCenteredString(this.mc.fontRendererObj, this.mod.getVersion(), this.getCenter(), 30, 3162015);
+
+        // SET FLY BOOST AMOUNT
         this.settings.setFlyBoostAmount(this.flyBoostAmountSlider.getValue());
 
+        // DRAW SCREEN
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -152,78 +153,6 @@ public class GuiMainMenu extends GuiScreen {
         this.hudTextButton.enabled = hudShown;
 
         this.flyBoostAmountSlider.enabled = flyBoostEnabled;
-
-        this.flyBoostAmountSlider.setValue(this.settings.getFlyBoostAmount());
-    }
-
-    protected void renderUI() {
-        final boolean renderFancier = (this.width >= 640 && this.height >= 350);
-
-        final float f2 = 0.4862745f;
-        final float f3 = 0.6392157f;
-        final float f4 = 0.7137255f;
-
-        GL11.glPushMatrix();
-        GL11.glTranslatef(1.0f * -this.getCenter(), -25.0f, 0.0f);
-        GL11.glScaled(2.0, 2.0, 2.0);
-
-        // DRAW TEXT
-        this.drawCenteredString(this.mc.fontRendererObj, "ToggleSneak", this.getCenter(), 20, 815000);
-
-        GL11.glPopMatrix();
-
-        if (renderFancier) {
-            GL11.glPushMatrix();
-            GL11.glScaled(1.0, 1.0, 0.0);
-
-            // DRAW TEXT
-            this.drawString(this.mc.fontRendererObj, "1.8.9 - 1.0", 2, 2, -1);
-
-            GL11.glPopMatrix();
-            GL11.glPushMatrix();
-            GL11.glEnable(3042);
-            GL11.glDisable(3553);
-            GL11.glBlendFunc(770, 771);
-            GL11.glColor4f(f2, f3, f4, 0.3f);
-
-            // RENDER
-            final Tessellator tessellator = Tessellator.getInstance();
-            final WorldRenderer worldRenderer = tessellator.getWorldRenderer();
-            worldRenderer.begin(4, DefaultVertexFormats.POSITION);
-            worldRenderer.pos(0.0, 0.0, 0.0).endVertex();
-            worldRenderer.pos(0.0, 140.0, 0.0).endVertex();
-            worldRenderer.pos(140.0, 0.0, 0.0).endVertex();
-            tessellator.draw();
-
-            GL11.glEnable(3553);
-            GL11.glDisable(3042);
-            GL11.glPopMatrix();
-            GL11.glPushMatrix();
-            GL11.glEnable(3042);
-            GL11.glDisable(3553);
-            GL11.glBlendFunc(770, 771);
-            GL11.glColor4f(f2, f3, f4, 0.3f);
-
-            // RENDER (again)
-            final Tessellator tessellator2 = Tessellator.getInstance();
-            final WorldRenderer worldRenderer2 = tessellator2.getWorldRenderer();
-
-            worldRenderer2.begin(4, DefaultVertexFormats.POSITION);
-            worldRenderer2.pos(this.width, this.height, 0.0).endVertex();
-            worldRenderer2.pos(this.width, (this.height - 140), 0.0).endVertex();
-            worldRenderer2.pos((this.width - 140), this.height, 0.0).endVertex();
-            tessellator2.draw();
-
-            GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-            GL11.glEnable(3553);
-            GL11.glDisable(3042);
-            GL11.glPopMatrix();
-
-            GlStateManager.pushMatrix();
-            GlStateManager.enableBlend();
-            GlStateManager.enableAlpha();
-            GlStateManager.popMatrix();
-        }
     }
 
     public void onGuiClosed() {
